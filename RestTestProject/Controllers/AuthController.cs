@@ -39,27 +39,28 @@ namespace RestTestProject.Controllers
         public async Task<string> GetToken()
         {
             var accounts = await publicClient.GetAccountsAsync();
-            AuthenticationResult result;
+            AuthenticationResult authResult;
             try
             {
-                result = await publicClient.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
+                authResult = await publicClient.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                             .ExecuteAsync();
             }
             catch (MsalUiRequiredException)
             {
                 try
                 {
-                    result = await publicClient.AcquireTokenInteractive(scopes)
+                    authResult = await publicClient.AcquireTokenInteractive(scopes)
                             .ExecuteAsync()
                             .ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
-                    logger.LogError(e.Message);
+                    logger.LogError("Error on account authentication:" + e.Message);
                     return e.Message;
                 }
             }
-            return result.AccessToken;
+            logger.LogInformation("Successfull account authentication:" + authResult.Account);
+            return authResult.AccessToken;
         }
     }
 }
