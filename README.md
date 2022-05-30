@@ -1,5 +1,5 @@
-# APISelfTokenAcquisition
-POC of auth endpoint on a .NET web API project to interactively sign in users and acquire an access token.
+# APIInteractiveTokenAcquisition
+POC of auth endpoint on a .NET web API project to interactively sign in users and acquire an access token for the API itself.
 
 ## Requirements:
 [Visual Studio](https://visualstudio.microsoft.com/ "Visual Studio")
