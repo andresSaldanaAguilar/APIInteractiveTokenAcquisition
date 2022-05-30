@@ -26,7 +26,7 @@ namespace RestTestProject.Services
 
             PublicClientApplicationOptions config = new PublicClientApplicationOptions();
 
-            Configuration.Bind("Authentication", config);
+            Configuration.Bind("AppRegistrationAuth", config);
             return config;
         }
     }

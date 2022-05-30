@@ -17,7 +17,7 @@ namespace RestTestProject.Controllers
     {
         private readonly ILogger<AuthController> logger;
         private readonly PublicClientApplication publicClient;
-        private readonly string[] scopes = new string[] { "api://9dc2d1cc-9a5a-480d-a1ca-602ea452feb5/access" };
+        private readonly List<string> scopes;
 
         /// <summary>
         /// Controller constructor
@@ -29,6 +29,25 @@ namespace RestTestProject.Controllers
         {
             this.logger = logger;
             this.publicClient = publicClient.client;
+            scopes = GetScopes("appsettings.json");
+        }
+
+        /// <summary>
+        /// Get scopes from aconfiguration file
+        /// </summary>
+        /// <param name="path">path to config file</param>
+        /// <returns>List of scopes</returns>
+        private List<string> GetScopes(string path)
+        {
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(path);
+            IConfigurationRoot Configuration = builder.Build();
+
+            List<string> scopes = new List<string>();
+
+            Configuration.Bind("AppRegistrationScopes", scopes);
+            return scopes;
         }
 
         /// <summary>
