@@ -26,6 +26,7 @@ NOTE: In this guide, we are going to specifically configure the solution to be a
 
 ### Start the application
 Start the application on visual studio clicking the run button, a new browser page will open inside the swagger documentation:
+
 ![image](https://user-images.githubusercontent.com/19196644/171053593-bbaab56f-b38e-41c8-8a7a-e12aa657b5fb.png)
 
 - `/Auth`: will open a browser tab to sign in with your Azure Account, if log in is successfull, you will see a message to close the tab and will get the token access as response.
