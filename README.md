@@ -29,7 +29,7 @@ Start the application on visual studio clicking the run button, a new browser pa
 
 ![image](https://user-images.githubusercontent.com/19196644/171053593-bbaab56f-b38e-41c8-8a7a-e12aa657b5fb.png)
 
-- `/Auth`: will open a browser tab to sign in with your Azure Account, if log in is successfull, you will see a message to close the tab and will get the token access as response.
+- `/Auth`: will open a browser tab to sign in with your Azure Account, if log in is successfull, you will see a message to close the tab and will get the token access as response, if a subsequent token is requested by the same user, the cache will retrieve the same token meanwhile is not expire, once is expired you can ask for another without authenticating.
 
 ![image](https://user-images.githubusercontent.com/19196644/171053763-3f547758-6575-48c7-bdc1-10dbb5697fb2.png)
 ![image](https://user-images.githubusercontent.com/19196644/171053995-fdf16db0-0c41-4b59-bbf6-ec109fcf3820.png)
