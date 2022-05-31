@@ -1,5 +1,10 @@
 # APIInteractiveTokenAcquisition
-POC of auth endpoint on a .NET web API project to interactively sign in users and acquire an access token for the API itself.
+Implemented scenario where REST API has an endpoint to interactively sign in users and acquire an access token for the API itself.
+
+## About the Access Token
+The scenario to acquire the token is based on the [Desktop app that calls web APIs](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-desktop-overview).
+
+When a user does a token request, a new [Access Token](https://docs.microsoft.com/en-us/azure/active-directory/develop/access-tokens) JWT V1.0 is issued every time, that means the user also need to reauthenticate everytime the request is done, the expiration time for each is between 60 to 90 minutes. No refresh tokens are involved in the process.
 
 ## Requirements:
 [Visual Studio](https://visualstudio.microsoft.com/ "Visual Studio")
@@ -8,13 +13,13 @@ POC of auth endpoint on a .NET web API project to interactively sign in users an
 ## How to run this solution:
 
 ### Configuration
-NOTE: In this guide, we are going to specifically configure the solution to be acccessed only by Accounts inside the organization using a public client with [MSAL library](https://docs.microsoft.com/en-us/azure/active-directory/develop/microsoft-identity-web "MSAL library").
+NOTE: In this guide, we are going to specifically configure the solution to be acccessed only by **Accounts inside the organization** using a **public client** with [MSAL library](https://docs.microsoft.com/en-us/azure/active-directory/develop/microsoft-identity-web "MSAL library").
 
 1. Register the solution on your Azure Acccount following the steps in [this page](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#register-an-application "this page")  and select the option for **Accounts in any organizational directory**, once the registration is complete, inside the application registration:
 	- Add a new **Mobile and desktop applications** platform on the Authentication section, and ensure to check the MSAL URI (this solution is using this library to authenticate) and the custom redirect URI for the .NET application, which is `http://localhost` learn more [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-net-instantiate-public-client-config-options "here").
   ![image](https://user-images.githubusercontent.com/19196644/171053160-c3db5f5c-05fc-46c0-9b4f-e4cece0a6243.png)
 	
-  - Set the **Application ID URI** and **at least one scope** to be able to request access.
+  	- Set the **Application ID URI** and **at least one scope** to be able to request access.
   ![image](https://user-images.githubusercontent.com/19196644/171053393-6ca4c019-0f1f-49c5-890a-6ff2ad641127.png)
 
 2. Load this solution on visual studio code, here is a [tutorial](https://docs.microsoft.com/en-us/visualstudio/get-started/tutorial-open-project-from-repo?view=vs-2022 "tutorial").
@@ -29,11 +34,6 @@ Start the application on visual studio clicking the run button, a new browser pa
 
 ![image](https://user-images.githubusercontent.com/19196644/171053593-bbaab56f-b38e-41c8-8a7a-e12aa657b5fb.png)
 
-- `/Auth`: will open a browser tab to sign in with your Azure Account, if log in is successfull, you will see a message to close the tab and will get the token access as response, if a subsequent token is requested by the same user, the cache will retrieve the same token meanwhile is not expire, once is expired you can ask for another without authenticating.
+- `/Auth`: will follow the [Desktop and mobile app sign-in flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-sign-in-flow#desktop-and-mobile-app-sign-in-flow).
 
-![image](https://user-images.githubusercontent.com/19196644/171053763-3f547758-6575-48c7-bdc1-10dbb5697fb2.png)
-![image](https://user-images.githubusercontent.com/19196644/171053995-fdf16db0-0c41-4b59-bbf6-ec109fcf3820.png)
-![image](https://user-images.githubusercontent.com/19196644/171054184-c71698f5-a7f0-4b18-9b54-a82143e253f5.png)
-
-
-- `/Sample`: will respond with a messasge if user is using a valid token, otherwise will return a 401 forbidden.
+- `/Sample`: will respond with a simple messasge if user is using a valid token, otherwise will return a 401 unauthorized.
