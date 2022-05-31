@@ -57,26 +57,17 @@ namespace RestTestProject.Controllers
         [HttpGet(Name = "GetToken")]
         public async Task<string> GetToken()
         {
-            var accounts = await publicClient.GetAccountsAsync();
             AuthenticationResult authResult;
             try
             {
-                authResult = await publicClient.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
-                            .ExecuteAsync();
+                authResult = await publicClient.AcquireTokenInteractive(scopes)
+                        .ExecuteAsync()
+                        .ConfigureAwait(false);
             }
-            catch (MsalUiRequiredException)
+            catch (Exception e)
             {
-                try
-                {
-                    authResult = await publicClient.AcquireTokenInteractive(scopes)
-                            .ExecuteAsync()
-                            .ConfigureAwait(false);
-                }
-                catch (Exception e)
-                {
-                    logger.LogError("Error on account authentication:" + e.Message);
-                    return e.Message;
-                }
+                logger.LogError("Error on account authentication:" + e.Message);
+                return e.Message;
             }
             logger.LogInformation("Successfull account authentication:" + authResult.Account);
             return authResult.AccessToken;
